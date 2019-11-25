@@ -21,12 +21,16 @@ import uk.gov.gchq.gaffer.integration.AbstractStoreITs;
 import uk.gov.gchq.gaffer.integration.impl.GetWalksIT;
 
 public class FederatedStoreITs extends AbstractStoreITs {
-    private static final FederatedStoreProperties STORE_PROPERTIES = FederatedStoreProperties.loadStoreProperties(
-            StreamUtil.openStream(FederatedStoreITs.class, "publicAccessPredefinedFederatedStore.properties"));
+  private static final FederatedStoreProperties STORE_PROPERTIES =
+      FederatedStoreProperties.loadStoreProperties(StreamUtil.openStream(
+          FederatedStoreITs.class,
+          "publicAccessPredefinedFederatedStore.properties"));
 
-    public FederatedStoreITs() {
-        super(STORE_PROPERTIES);
-        skipTestMethod(GetWalksIT.class, "shouldReturnNoResultsWhenNoEntityResults", "Fails due to the way we split the entities and edges into 2 graphs");
-        addExtraTest(FederatedViewsIT.class);
-    }
+  public FederatedStoreITs() {
+    super(STORE_PROPERTIES);
+    skipTestMethod(
+        GetWalksIT.class, "shouldReturnNoResultsWhenNoEntityResults",
+        "Fails due to the way we split the entities and edges into 2 graphs");
+    addExtraTest(FederatedViewsIT.class);
+  }
 }

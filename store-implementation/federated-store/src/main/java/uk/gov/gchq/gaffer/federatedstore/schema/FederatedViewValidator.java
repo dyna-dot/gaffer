@@ -16,54 +16,65 @@
 
 package uk.gov.gchq.gaffer.federatedstore.schema;
 
+import static java.util.Objects.isNull;
+
+import java.util.Set;
 import uk.gov.gchq.gaffer.data.elementdefinition.view.View;
 import uk.gov.gchq.gaffer.store.StoreTrait;
 import uk.gov.gchq.gaffer.store.schema.Schema;
 import uk.gov.gchq.gaffer.store.schema.ViewValidator;
 import uk.gov.gchq.koryphe.ValidationResult;
 
-import java.util.Set;
-
-import static java.util.Objects.isNull;
-
 public class FederatedViewValidator extends ViewValidator {
 
-    @Override
-    public ValidationResult validate(final View view, final Schema schema, final Set<StoreTrait> storeTraits) {
-        final ValidationResult rtn = new ValidationResult();
+  @Override
+  public ValidationResult validate(final View view, final Schema schema,
+                                   final Set<StoreTrait> storeTraits) {
+    final ValidationResult rtn = new ValidationResult();
 
-        final boolean isStoreOrdered = storeTraits.contains(StoreTrait.ORDERED);
+    final boolean isStoreOrdered = storeTraits.contains(StoreTrait.ORDERED);
 
-        if (null != view) {
-            final ValidationResult entitiesResult = getEntityResult(view, schema, storeTraits, isStoreOrdered);
-            final ValidationResult edgeResult = getEdgeResult(view, schema, storeTraits, isStoreOrdered);
+    if (null != view) {
+      final ValidationResult entitiesResult =
+          getEntityResult(view, schema, storeTraits, isStoreOrdered);
+      final ValidationResult edgeResult =
+          getEdgeResult(view, schema, storeTraits, isStoreOrdered);
 
-            final boolean isEntityViewInvalid = !entitiesResult.isValid();
-            final boolean isEdgeViewInvalid = !edgeResult.isValid();
-            final boolean isEntityViewInvalidAndTheOnlyViewRequested = isEntityViewInvalid && (isNull(view.getEdges()) || view.getEdges().isEmpty());
-            final boolean isEdgeViewInvalidAndTheOnlyViewRequested = isEdgeViewInvalid && (isNull(view.getEntities()) || view.getEntities().isEmpty());
+      final boolean isEntityViewInvalid = !entitiesResult.isValid();
+      final boolean isEdgeViewInvalid = !edgeResult.isValid();
+      final boolean isEntityViewInvalidAndTheOnlyViewRequested =
+          isEntityViewInvalid &&
+          (isNull(view.getEdges()) || view.getEdges().isEmpty());
+      final boolean isEdgeViewInvalidAndTheOnlyViewRequested =
+          isEdgeViewInvalid &&
+          (isNull(view.getEntities()) || view.getEntities().isEmpty());
 
-            if (isEntityViewInvalid && isEdgeViewInvalid) {
-                rtn.add(entitiesResult);
-                rtn.add(edgeResult);
-            } else if (isEntityViewInvalidAndTheOnlyViewRequested) {
-                rtn.add(entitiesResult);
-            } else if (isEdgeViewInvalidAndTheOnlyViewRequested) {
-                rtn.add(edgeResult);
-            }
-        }
-        return rtn;
+      if (isEntityViewInvalid && isEdgeViewInvalid) {
+        rtn.add(entitiesResult);
+        rtn.add(edgeResult);
+      } else if (isEntityViewInvalidAndTheOnlyViewRequested) {
+        rtn.add(entitiesResult);
+      } else if (isEdgeViewInvalidAndTheOnlyViewRequested) {
+        rtn.add(edgeResult);
+      }
     }
+    return rtn;
+  }
 
-    protected ValidationResult getEdgeResult(final View view, final Schema schema, final Set<StoreTrait> storeTraits, final boolean isStoreOrdered) {
-        final ValidationResult edgeResult = new ValidationResult();
-        validateEdge(view, schema, storeTraits, isStoreOrdered, edgeResult);
-        return edgeResult;
-    }
+  protected ValidationResult getEdgeResult(final View view, final Schema schema,
+                                           final Set<StoreTrait> storeTraits,
+                                           final boolean isStoreOrdered) {
+    final ValidationResult edgeResult = new ValidationResult();
+    validateEdge(view, schema, storeTraits, isStoreOrdered, edgeResult);
+    return edgeResult;
+  }
 
-    protected ValidationResult getEntityResult(final View view, final Schema schema, final Set<StoreTrait> storeTraits, final boolean isStoreOrdered) {
-        final ValidationResult entitiesResult = new ValidationResult();
-        validateEntities(view, schema, storeTraits, isStoreOrdered, entitiesResult);
-        return entitiesResult;
-    }
+  protected ValidationResult getEntityResult(final View view,
+                                             final Schema schema,
+                                             final Set<StoreTrait> storeTraits,
+                                             final boolean isStoreOrdered) {
+    final ValidationResult entitiesResult = new ValidationResult();
+    validateEntities(view, schema, storeTraits, isStoreOrdered, entitiesResult);
+    return entitiesResult;
+  }
 }

@@ -16,58 +16,62 @@
 
 package uk.gov.gchq.gaffer.operation.impl.join.methods;
 
-
-import uk.gov.gchq.koryphe.tuple.MapTuple;
-
 import java.util.ArrayList;
 import java.util.List;
+import uk.gov.gchq.koryphe.tuple.MapTuple;
 
 /**
- * {@code InnerJoin} is a join function which only returns keys and matching values.
+ * {@code InnerJoin} is a join function which only returns keys and matching
+ * values.
  */
 public class InnerJoin extends JoinFunction {
 
-    /**
-     * Returns a list containing a {@code MapTuple} for each matching value associated
-     * with that key. Keys with no matches result in an empty list
-     * @param key The key
-     * @param matches a list containing the matches
-     * @param keyName the name of the keyed side (LEFT or RIGHT)
-     * @param matchingValuesName the corresponding value side (LEFT or RIGHT)
-     * @return A list of matching MapTuples
-     */
-    @Override
-    protected List<MapTuple> joinFlattened(final Object key, final List matches, final String keyName, final String matchingValuesName) {
-        List<MapTuple> resultList = new ArrayList<>();
-        MapTuple<String> matchingPair;
+  /**
+   * Returns a list containing a {@code MapTuple} for each matching value
+   * associated with that key. Keys with no matches result in an empty list
+   * @param key The key
+   * @param matches a list containing the matches
+   * @param keyName the name of the keyed side (LEFT or RIGHT)
+   * @param matchingValuesName the corresponding value side (LEFT or RIGHT)
+   * @return A list of matching MapTuples
+   */
+  @Override
+  protected List<MapTuple> joinFlattened(final Object key, final List matches,
+                                         final String keyName,
+                                         final String matchingValuesName) {
+    List<MapTuple> resultList = new ArrayList<>();
+    MapTuple<String> matchingPair;
 
-        for (final Object matched : matches) {
-            matchingPair = new MapTuple<>();
-            matchingPair.put(keyName, key);
-            matchingPair.put(matchingValuesName, matched);
-            resultList.add(matchingPair);
-        }
-
-        return resultList;
+    for (final Object matched : matches) {
+      matchingPair = new MapTuple<>();
+      matchingPair.put(keyName, key);
+      matchingPair.put(matchingValuesName, matched);
+      resultList.add(matchingPair);
     }
 
-    /**
-     * Returns a {@code MapTuple} if the key has matches. If not, null is returned.
-     * @param key The key
-     * @param matches a list containing the matches
-     * @param keyName the name of the keyed side (LEFT or RIGHT)
-     * @param matchingValuesName the corresponding value side (LEFT or RIGHT)
-     * @return The MapTuple is the key has matches (null if not).
-     */
-    @Override
-    protected MapTuple joinAggregated(final Object key, final List matches, final String keyName, final String matchingValuesName) {
-        if (!matches.isEmpty()) {
-            MapTuple<String> allMatchingValues = new MapTuple<>();
-            allMatchingValues.put(keyName, key);
-            allMatchingValues.put(matchingValuesName, matches);
-            return allMatchingValues;
-        } else {
-            return null;
-        }
+    return resultList;
+  }
+
+  /**
+   * Returns a {@code MapTuple} if the key has matches. If not, null is
+   * returned.
+   * @param key The key
+   * @param matches a list containing the matches
+   * @param keyName the name of the keyed side (LEFT or RIGHT)
+   * @param matchingValuesName the corresponding value side (LEFT or RIGHT)
+   * @return The MapTuple is the key has matches (null if not).
+   */
+  @Override
+  protected MapTuple joinAggregated(final Object key, final List matches,
+                                    final String keyName,
+                                    final String matchingValuesName) {
+    if (!matches.isEmpty()) {
+      MapTuple<String> allMatchingValues = new MapTuple<>();
+      allMatchingValues.put(keyName, key);
+      allMatchingValues.put(matchingValuesName, matches);
+      return allMatchingValues;
+    } else {
+      return null;
     }
+  }
 }

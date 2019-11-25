@@ -15,85 +15,73 @@
  */
 
 package uk.gov.gchq.gaffer.operation.impl.join.methods;
-import uk.gov.gchq.gaffer.operation.impl.join.JoinFunctionTest;
-import uk.gov.gchq.koryphe.tuple.MapTuple;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import uk.gov.gchq.gaffer.operation.impl.join.JoinFunctionTest;
+import uk.gov.gchq.koryphe.tuple.MapTuple;
 
 public class OuterJoinTest extends JoinFunctionTest {
 
-    @Override
-    protected List<MapTuple> getExpectedLeftKeyResultsForElementMatch() {
-        return Arrays.asList(
-                createMapTuple(getElement(8), Collections.emptyList()),
-                createMapTuple(getElement(10), Collections.emptyList())
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedLeftKeyResultsForElementMatch() {
+    return Arrays.asList(
+        createMapTuple(getElement(8), Collections.emptyList()),
+        createMapTuple(getElement(10), Collections.emptyList()));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedRightKeyResultsForElementMatch() {
-        return Arrays.asList(
-                createMapTuple(Collections.emptyList(), getElement(6)),
-                createMapTuple(Collections.emptyList(), getElement(12))
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedRightKeyResultsForElementMatch() {
+    return Arrays.asList(
+        createMapTuple(Collections.emptyList(), getElement(6)),
+        createMapTuple(Collections.emptyList(), getElement(12)));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedLeftKeyResultsFlattenedForElementMatch() {
-        return Arrays.asList(
-                createMapTuple(getElement(8), null),
-                createMapTuple(getElement(10), null)
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedLeftKeyResultsFlattenedForElementMatch() {
+    return Arrays.asList(createMapTuple(getElement(8), null),
+                         createMapTuple(getElement(10), null));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedRightKeyResultsFlattenedForElementMatch() {
-        return Arrays.asList(
-                createMapTuple(null, getElement(6)),
-                createMapTuple(null, getElement(12))
-        );
-    }
+  @Override
+  protected List<MapTuple>
+  getExpectedRightKeyResultsFlattenedForElementMatch() {
+    return Arrays.asList(createMapTuple(null, getElement(6)),
+                         createMapTuple(null, getElement(12)));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedLeftKeyResultsForCustomMatch() {
-        return Arrays.asList(
-                createMapTuple(getElement(4), Collections.emptyList()),
-                createMapTuple(getElement(8), Collections.emptyList()),
-                createMapTuple(getElement(10), Collections.emptyList())
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedLeftKeyResultsForCustomMatch() {
+    return Arrays.asList(
+        createMapTuple(getElement(4), Collections.emptyList()),
+        createMapTuple(getElement(8), Collections.emptyList()),
+        createMapTuple(getElement(10), Collections.emptyList()));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedRightKeyResultsForCustomMatch() {
-        return Arrays.asList(
-                createMapTuple(Collections.emptyList(), getElement(3)),
-                createMapTuple(Collections.emptyList(), getElement(6)),
-                createMapTuple(Collections.emptyList(), getElement(12))
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedRightKeyResultsForCustomMatch() {
+    return Arrays.asList(
+        createMapTuple(Collections.emptyList(), getElement(3)),
+        createMapTuple(Collections.emptyList(), getElement(6)),
+        createMapTuple(Collections.emptyList(), getElement(12)));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedLeftKeyResultsFlattenedForCustomMatch() {
-        return Arrays.asList(
-                createMapTuple(getElement(4), null),
-                createMapTuple(getElement(8), null),
-                createMapTuple(getElement(10), null)
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedLeftKeyResultsFlattenedForCustomMatch() {
+    return Arrays.asList(createMapTuple(getElement(4), null),
+                         createMapTuple(getElement(8), null),
+                         createMapTuple(getElement(10), null));
+  }
 
-    @Override
-    protected List<MapTuple> getExpectedRightKeyResultsFlattenedForCustomMatch() {
-        return Arrays.asList(
-                createMapTuple(null, getElement(3)),
-                createMapTuple(null, getElement(6)),
-                createMapTuple(null, getElement(12))
-        );
-    }
+  @Override
+  protected List<MapTuple> getExpectedRightKeyResultsFlattenedForCustomMatch() {
+    return Arrays.asList(createMapTuple(null, getElement(3)),
+                         createMapTuple(null, getElement(6)),
+                         createMapTuple(null, getElement(12)));
+  }
 
-    @Override
-    protected JoinFunction getJoinFunction() {
-        return new OuterJoin();
-    }
+  @Override
+  protected JoinFunction getJoinFunction() {
+    return new OuterJoin();
+  }
 }
